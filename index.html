@@ -1,140 +1,197 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Dream Fauna Quiz</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dream Fauna Quiz</title>
+<link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
 <style>
 body {
-  font-family: "Poppins", sans-serif;
-  background: linear-gradient(135deg, #fcefee, #e6f7ff);
-  color: #333;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  margin: 0;
-  padding: 20px;
-  overflow: hidden;
-}
-.quiz-container {
-  background: white;
-  border-radius: 20px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-  max-width: 600px;
-  width: 100%;
-  padding: 30px;
+  font-family: 'Special Elite', monospace;
+  background: radial-gradient(ellipse at center, #0c0c0f 0%, #000000 100%);
+  color: #e0dcd1;
   text-align: center;
+  padding: 40px;
+  overflow-x: hidden;
   position: relative;
-  z-index: 1;
 }
-h1 { font-size: 2em; margin-bottom: 20px; }
+
+h1 {
+  font-size: 2.2rem;
+  color: #f8f3ec;
+  margin-bottom: 20px;
+  text-shadow: 0 0 6px #b1aaff;
+}
+
 button {
-  background: #ff80ab;
-  border: none;
-  border-radius: 12px;
-  padding: 12px 25px;
-  color: white;
-  font-size: 16px;
+  background: #1c1c24;
+  border: 1px solid #b1aaff;
+  color: #e8e6ff;
+  padding: 10px 25px;
+  border-radius: 8px;
+  margin: 20px 10px;
   cursor: pointer;
-  margin-top: 15px;
-  transition: 0.2s;
+  font-family: 'Special Elite', monospace;
+  transition: 0.3s;
 }
-button:hover { background: #ff4081; }
-.hidden { display: none; }
-input[type="radio"] { margin-right: 10px; }
-.answer { margin: 10px 0; display: block; text-align: left; }
-.result { margin-top: 25px; font-size: 1.2em; text-align: left; position: relative; z-index: 2; }
-.result h2 { font-size: 1.6em; margin-bottom: 10px; }
-.result p { margin: 5px 0; }
-.result img {
-  width: 120px;
-  height: 120px;
-  object-fit: contain;
-  margin: 10px auto;
+button:hover {
+  background: #3a3a54;
+  transform: scale(1.05);
+}
+
+#quiz {
+  max-width: 600px;
+  margin: 0 auto;
+  background: rgba(30, 30, 45, 0.7);
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 0 10px rgba(200, 180, 255, 0.2);
+}
+
+.answer {
   display: block;
+  background: rgba(60, 60, 80, 0.4);
+  border: 1px dashed #b1aaff;
+  border-radius: 8px;
+  margin: 8px 0;
+  padding: 10px;
+  cursor: pointer;
+  transition: 0.3s;
 }
-.buttons-container {
-  margin-top: 20px;
+.answer:hover {
+  background: rgba(100, 100, 160, 0.4);
 }
+
+.hidden { display: none; }
+
+#result {
+  background: rgba(30, 30, 45, 0.8);
+  border: 1px solid #b1aaff;
+  padding: 30px;
+  border-radius: 15px;
+  margin: 20px auto;
+  max-width: 600px;
+  box-shadow: 0 0 20px rgba(150, 120, 255, 0.3);
+  position: relative;
+  z-index: 2;
+}
+
+.placeholder-img {
+  font-size: 4rem;
+  margin-bottom: 15px;
+  filter: drop-shadow(0 0 5px #b1aaff);
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 10px;
+}
+ul li {
+  font-style: italic;
+  margin: 4px 0;
+}
+
+/* Twinkling Stars */
 .star {
   position: absolute;
-  width: 5px;
-  height: 5px;
   background: white;
   border-radius: 50%;
-  opacity: 0.8;
-  animation: floatStar linear infinite, twinkleStar ease-in-out infinite;
+  opacity: 0;
+  animation: floatUp linear infinite, twinkle ease-in-out infinite;
+  z-index: 0;
 }
-@keyframes floatStar {
-  0% { transform: translateY(0px); }
-  100% { transform: translateY(-300px); }
+
+@keyframes floatUp {
+  0% { transform: translateY(0); opacity: 0; }
+  20% { opacity: 1; }
+  100% { transform: translateY(-120vh); opacity: 0; }
 }
-@keyframes twinkleStar {
-  0%,100% { opacity: 0.8; transform: scale(1); }
-  50% { opacity: 0.3; transform: scale(1.5); }
+@keyframes twinkle {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
 }
 </style>
 </head>
+
 <body>
-<div class="quiz-container">
-  <h1>The Dream Fauna Quiz</h1>
-  <div id="quiz"></div>
-  <div class="buttons-container">
-    <button id="next-btn">Next</button>
-    <button id="retake-btn" class="hidden">Retake Quiz</button>
-    <button id="share-btn" class="hidden">Share Quiz</button>
-  </div>
-  <div id="result" class="hidden"></div>
-</div>
+<h1>✨ The Dream Fauna Quiz ✨</h1>
+<div id="quiz"></div>
+<button id="next-btn">Next →</button>
+<div id="result" class="hidden"></div>
+<button id="retake-btn" class="hidden">Retake</button>
+<button id="share-btn" class="hidden">Share</button>
 
 <script>
 const quizData = [
-  { question: "If you were a vegetable or plant, which would you be?", answers: { a:{text:"A resilient cactus 🌵",type:"carnivorous_plant"},b:{text:"A weeping willow 🌿",type:"willow_tree"},c:{text:"A fiery chili 🌶️",type:"scorpion"},d:{text:"A mystical mushroom 🍄",type:"wizard"},e:{text:"A pearl-hidden oyster 🐚",type:"oyster"}}},
-  { question: "Pick a creature to be your sidekick:", answers: { a:{text:"A clever crow 🪶",type:"crow_prophet"},b:{text:"A loyal wolf 🐺",type:"werewolf"},c:{text:"A mysterious oyster 🐚",type:"oyster"},d:{text:"A delicate swan 🦢",type:"glass_swan"},e:{text:"A mischievous frog 🍭",type:"swirly_pop"}}},
-  { question: "Your perfect night activity:", answers: { a:{text:"Juggling at the circus 🎪",type:"circus_clown"},b:{text:"Staring at the moon 🌙",type:"moon"},c:{text:"Casting a spell 🔮",type:"wizard"},d:{text:"Cuddling with a raggedy doll 🧸",type:"raggedy_ann"},e:{text:"Stalking quietly through shadows 🦂",type:"scorpion"}}},
-  { question: "Pick a magical snack:", answers: { a:{text:"A spinning lollipop 🍭",type:"swirly_pop"},b:{text:"Petals with a pinch of glitter 🌺",type:"carnivorous_plant"},c:{text:"A pearl hidden in a shell 🐚",type:"oyster"},d:{text:"Willow bark tea 🌿",type:"willow_tree"},e:{text:"Sugar crystals on a glass swan 🦢",type:"glass_swan"}}},
-  { question: "If you had a theme song, it would be:", answers: { a:{text:"Dramatic circus music 🎶",type:"circus_clown"},b:{text:"A dreamy space ballad 🌌",type:"moon"},c:{text:"A cryptic whispering melody 🪶",type:"crow_prophet"},d:{text:"Howling at the moon 🐺",type:"werewolf"},e:{text:"Mysterious wizard-y tones 🪄",type:"wizard"}}},
-  { question: "Choose a color vortex to jump into:", answers: { a:{text:"Rainbow whirl 🌈",type:"swirly_pop"},b:{text:"Midnight black 🖤",type:"crow_prophet"},c:{text:"Crimson swirl 🥀",type:"scorpion"},d:{text:"Silvery glow 🌙",type:"moon"},e:{text:"Forest green 🍃",type:"willow_tree"}}}
+  {
+    question: "You wake up in a strange dream — what do you notice first?",
+    answers: {
+      a: { text: "The sound of waves whispering secrets", type: "oyster" },
+      b: { text: "A crow staring knowingly at you", type: "crow" },
+      c: { text: "Your reflection in a cracked mirror", type: "glass" },
+      d: { text: "A circus tent glowing faintly under moonlight", type: "clown" }
+    }
+  },
+  {
+    question: "Someone knocks on your door. Who is it?",
+    answers: {
+      a: { text: "A wizard offering you tea", type: "wizard" },
+      b: { text: "A werewolf asking to borrow sugar", type: "werewolf" },
+      c: { text: "A willow tree waving hello from outside", type: "willow" },
+      d: { text: "No one... just the wind", type: "moon" }
+    }
+  },
+  {
+    question: "Choose a mood for the day:",
+    answers: {
+      a: { text: "Glittery chaos", type: "swirlypop" },
+      b: { text: "A calm pond with secrets", type: "oyster" },
+      c: { text: "Something slightly cursed but charming", type: "ragdoll" },
+      d: { text: "Venomous yet alluring", type: "scorpion" }
+    }
+  }
 ];
 
 const results = {
-  crow_prophet:{title:"🪶 The Crow Prophet",img:"assets/crow.png",desc:"Sharp, mysterious, slightly dramatic — sees all, knows all, occasionally caws at bad decisions.",quotes:["Don’t touch my stuff.","I knew that would happen."]},
-  oyster:{title:"🐚 The Oyster",img:"assets/oyster.png",desc:"Soft on the outside, secretly brilliant — produces pearls from chaos.",quotes:["You’ll never guess what I found.","Shh… it’s secret."]},
-  raggedy_ann:{title:"🧸 The Raggedy Ann Doll",img:"assets/raggedy_ann.png",desc:"Threadbare but full of heart — comforting, chaotic, crooked in the best ways.",quotes:["Can you come over?","I just need a hug."]},
-  carnivorous_plant:{title:"🌺 The Carnivorous Plant",img:"assets/carnivorous_plant.png",desc:"Alluring, a little dangerous — charms before you realize it’s a trap.",quotes:["Feed me attention.","I bite when necessary."]},
-  circus_clown:{title:"🤡 The Circus Clown",img:"assets/circus_clown.png",desc:"Hilarious and tragic — makes everyone laugh while juggling their own existential crises.",quotes:["Life’s a circus, literally.","I’m fine… probably."]},
-  glass_swan:{title:"🦢 The Glass Swan",img:"assets/glass_swan.png",desc:"Elegant and fragile — flawless outside, secretly fearing a stumble.",quotes:["Don’t break me.","I have plans… maybe."]},
-  wizard:{title:"🪄 The Wizard",img:"assets/wizard.png",desc:"Wise, whimsical, a little forgetful — knows things nobody else does.",quotes:["I cast spells daily.","Where did I put my wand?"]},
-  scorpion:{title:"🦂 The Scorpion",img:"assets/scorpion.png",desc:"Intense, loyal, a touch dramatic — bites when necessary but protective.",quotes:["Cross me, regret it.","I’ll protect you… maybe."]},
-  swirly_pop:{title:"🍭 The Swirly Pop",img:"assets/swirly_pop.png",desc:"Colorful, unpredictable, dizzyingly fun — a human confetti cannon of energy.",quotes:["Catch me if you can.","Confetti solves everything."]},
-  werewolf:{title:"🐺 The Werewolf",img:"assets/werewolf.png",desc:"Fierce, wild, misunderstood — loyalty runs deep; moods follow the moon.",quotes:["Don’t wake me before sunset.","I only bite on Mondays."]},
-  moon:{title:"🌙 The Moon",img:"assets/moon.png",desc:"Dreamy, reflective, a little moody — influences tides, emotions, poetry bursts.",quotes:["Deep thoughts only.","I need space… literally."]},
-  willow_tree:{title:"🌿 The Willow Tree",img:"assets/willow_tree.png",desc:"Gentle, patient, deeply rooted — sways with the wind, listens to secrets.",quotes:["I got you.","Stay awhile and talk."]}
+  crow: { title: "The Crow Prophet 🪶", desc: "Dark humor and divine timing. You predict chaos before it trends.", quotes: ["“I told you so.”", "“Don’t touch my shiny things.”"] },
+  oyster: { title: "The Oyster 🐚", desc: "Soft soul, tough shell. You know when to close off and when to shine.", quotes: ["“Boundaries are self-care.”", "“I’m not ignoring you, I’m recharging.”"] },
+  ragdoll: { title: "The Raggedy Ann Doll 🧵", desc: "A little haunted, but in a comforting way. People love your weird warmth.", quotes: ["“Don’t worry, I’ve seen worse.”", "“Yeah I stitched it myself.”"] },
+  carnivorous: { title: "The Carnivorous Plant 🌿", desc: "Cute but deadly. You flirt like it’s a trap (because it is).", quotes: ["“I bite.”", "“You came to me.”"] },
+  clown: { title: "The Circus Clown 🎪", desc: "Tragicomic genius. You make laughter out of existential dread.", quotes: ["“It’s fine, I’m fine, this is fine.”", "“Let’s cause a little scene.”"] },
+  glass: { title: "The Glass Swan 🦢", desc: "Delicate yet dramatic. Everyone’s a little afraid of breaking you.", quotes: ["“Handle with care.”", "“No, I’m not overreacting.”"] },
+  wizard: { title: "The Wizard 🧙", desc: "Mysterious and meme-savvy. You mix spells and sarcasm equally well.", quotes: ["“That’s above your pay grade.”", "“I cast block.”"] },
+  scorpion: { title: "The Scorpion 🦂", desc: "Passionate and prickly. Your loyalty stings if betrayed.", quotes: ["“Don’t test me.”", "“I thrive in chaos.”"] },
+  swirlypop: { title: "The Swirly Pop 🍭", desc: "Sugar rush of a human being. You spin through life unbothered.", quotes: ["“Let’s make it weird.”", "“Sleep is optional.”"] },
+  werewolf: { title: "The Werewolf 🌕", desc: "Soft heart, sharp teeth. A little wild, but always loyal to the pack.", quotes: ["“You up?”", "“Don’t make me growl.”"] },
+  moon: { title: "The Moon 🌙", desc: "Dreamy, distant, and full of secrets. You glow quietly.", quotes: ["“I don’t chase, I orbit.”", "“Goodnight forever.”"] },
+  willow: { title: "The Willow Tree 🌿", desc: "Ancient wisdom in a comfy sweater. You bend, never break.", quotes: ["“Let it be.”", "“I’m fine, just vibing.”"] }
 };
 
 let currentQuestion=0;
-let scores={};
-for(let key in results)scores[key]=0;
+let scores={}; for(let k in results) scores[k]=0;
 
 const quizContainer=document.getElementById("quiz");
 const nextBtn=document.getElementById("next-btn");
+const resultDiv=document.getElementById("result");
 const retakeBtn=document.getElementById("retake-btn");
 const shareBtn=document.getElementById("share-btn");
-const resultDiv=document.getElementById("result");
 
 function loadQuestion(){
   const q=quizData[currentQuestion];
   quizContainer.innerHTML=`<h3>${q.question}</h3>`;
-  for(let key in q.answers){
-    const ans=q.answers[key];
-    quizContainer.innerHTML+=`<label class="answer"><input type="radio" name="answer" value="${ans.type}"> ${ans.text}</label>`;
+  for(let k in q.answers){
+    const a=q.answers[k];
+    quizContainer.innerHTML+=`
+      <label class="answer">
+        <input type="radio" name="answer" value="${a.type}"> ${a.text}
+      </label>`;
   }
 }
 
 nextBtn.addEventListener("click",()=>{
   const selected=document.querySelector('input[name="answer"]:checked');
-  if(!selected)return alert("Pick one ✨");
+  if(!selected) return alert("Pick one ✨");
   scores[selected.value]++;
   currentQuestion++;
   if(currentQuestion<quizData.length) loadQuestion();
@@ -149,32 +206,34 @@ function showResult(){
   resultDiv.classList.remove("hidden");
   retakeBtn.classList.remove("hidden");
   shareBtn.classList.remove("hidden");
+
   resultDiv.innerHTML=`
-    <img src="${res.img}" alt="${res.title}">
+    <div class="placeholder-img">${res.title.split(' ')[0]}</div>
     <h2>${res.title}</h2>
     <p>${res.desc}</p>
     <p><strong>Typical quotes:</strong></p>
-    <ul>${res.quotes.map(q=>`<li>"${q}"</li>`).join('')}</ul>
+    <ul>${res.quotes.map(q=>`<li>${q}</li>`).join('')}</ul>
   `;
   createStars();
 }
 
+// Continuous star animation
 let starInterval;
 function createStars(){
   starInterval=setInterval(()=>{
-    const star=document.createElement('div');
-    star.classList.add('star');
-    star.style.left=Math.random()*100+'%';
-    star.style.top='100%';
-    star.style.width=star.style.height=(Math.random()*5+3)+'px';
-    star.style.animationDuration=(Math.random()*5+3)+'s';
-    document.body.appendChild(star);
-    setTimeout(()=>star.remove(),8000);
+    const s=document.createElement('div');
+    s.classList.add('star');
+    s.style.left=Math.random()*100+'%';
+    s.style.top='100%';
+    s.style.width=s.style.height=(Math.random()*5+3)+'px';
+    s.style.animationDuration=(Math.random()*5+3)+'s';
+    document.body.appendChild(s);
+    setTimeout(()=>s.remove(),8000);
   },200);
 }
 
 retakeBtn.addEventListener("click",()=>{
-  scores={};for(let key in results)scores[key]=0;
+  scores={}; for(let k in results) scores[k]=0;
   currentQuestion=0;
   quizContainer.classList.remove("hidden");
   nextBtn.classList.remove("hidden");
@@ -187,10 +246,12 @@ retakeBtn.addEventListener("click",()=>{
 
 shareBtn.addEventListener("click",()=>{
   const url=window.location.href;
-  navigator.clipboard.writeText(`Take this quirky Dream Fauna Quiz: ${url}`).then(()=>alert("Quiz link copied! Share it with your friends ✨"));
+  navigator.clipboard.writeText(`Take the Dream Fauna Quiz 🌙 ${url}`)
+    .then(()=>alert("Copied link to clipboard ✨"));
 });
 
 loadQuestion();
 </script>
 </body>
 </html>
+
